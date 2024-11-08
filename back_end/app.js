@@ -1,21 +1,22 @@
 
 import express from 'express'
 import cors from 'cors'
+import sql from './database.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/login/:usuario/:senha',(req, res)=>{
+app.get('/login/:usuario/:senha', async (req, res)=>{
     const { usuario, senha } = req.params
-    if(usuario == 'adm@adm.com' && senha == '123')
-    {
-        return res.status(200).json('bem vindo')
-    }
+
+    const consulta = await sql`select * from usuario where
+    email = ${usuario} and senha = ${senha}`
+
+    if(consulta != null && consulta != '')
+        return res.status(200).json(consulta);
     else
-    {
-        return res.status(200).json('usuario ou senha incorretos!')
-    }
+        return res.status(401).json('Usuario ou senha incorretos')
 });
 
 app.listen(3000,()=>{
