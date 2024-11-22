@@ -19,6 +19,23 @@ app.get('/login/:usuario/:senha', async (req, res)=>{
         return res.status(401).json('Usuario ou senha incorretos')
 });
 
+app.post('/usuario/novo', async (req, res)=>{
+    try{
+        const {email, senha, nome_usuario} = req.body;
+        if(senha.length != 8){
+            return res.status(400).json('Senha deve ter 8 caracteres')
+        }
+        const insert = await sql`insert into usuario
+        (email, senha, nome_usuario, nivel, usuario_status)
+        values (${email},${senha},${nome_usuario},1,1)` 
+        return res.status(200).json('ok')
+    }
+    catch(error){
+        console.log(error)
+        return res.status(500).json('Erro ao cadastrar usuario!')
+    }
+});
+
 app.listen(3000,()=>{
     console.log('Running!!')
 });
