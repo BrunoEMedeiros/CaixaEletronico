@@ -1,0 +1,23 @@
+# NOTAS SOBRE O FRONT-END
+
+Voces podem notas que eu usei duas formas diferentes de "formularios"
+até o momento, dentro da pagina "index.html" foi criado para parecer um <form>
+quando na verdade são apenas containers e campos de texto organizados para parecer
+essa estética. O arquivo JS associado a ela, "index.js", foi criado com uma interação
+simples, com "document.querySelector()" e "documento.addEventListener()" usando o método
+"fetch()" para realizar o processo de login em conjunto com a API.
+Já na pagina "novo_usuario.html", aqui sim eu usei a tag <form> no intuito de apresentar
+a mesma lógica da pagina "index.html", porem essa tag não foi feita para trabalhar dessa 
+forma.
+
+Pontos a considerar:
+1 - Por padrão, um formulário HTML envia dados no formato application/x-www-form-urlencoded 
+ou multipart/form-data. APIs REST geralmente esperam receber JSON (application/json) como 
+formato de entrada.
+2 - O <form> suporta apenas os métodos GET e POST. APIs REST utilizam métodos HTTP 
+adicionais, como PUT, PATCH e DELETE, que não podem ser diretamente configurados em um 
+formulário.
+3 - Ao submeter um <form>, o navegador executa uma requisição HTTP direta, normalmente 
+recarregando a página no processo. Isso contradiz práticas modernas de desenvolvimento 
+front-end, que favorecem SPAs (Single Page Applications) e manipulação de dados via 
+JavaScript (e.g., fetch ou Axios).

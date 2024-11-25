@@ -31,7 +31,9 @@ app.post('/usuario/novo', async (req, res)=>{
         return res.status(200).json('ok')
     }
     catch(error){
-        console.log(error)
+        if(error.code == 23505){
+            return res.status(409).json('Email ja cadastrado!')
+        }
         return res.status(500).json('Erro ao cadastrar usuario!')
     }
 });

@@ -10,7 +10,6 @@ document.querySelector('#form-new').addEventListener('submit', async function(ev
     }        
     else
     {
-        event.preventDefault(); // Impede o envio do formulário
         msgError.textContent = ""
         const email = document.querySelector('#email').value;
         const nome = document.querySelector('#nome').value;
@@ -26,8 +25,18 @@ document.querySelector('#form-new').addEventListener('submit', async function(ev
                 nome_usuario: nome
             })
         });
-
-        const msg = await res.json();
-        alert(msg)
+       
+        if(res.status == 200){
+            alert('Cadastrado com sucesso')
+        }
+        else if(res.status == 500){
+            alert('Ops...houve um erro ao cadastrar')
+        }
+        else  if(res.status == 400){
+            alert('Senha deve ter 8 caracteres!')
+        }
+        else  if(res.status == 409){
+            alert('Email ja cadastrado')
+        }
     }
 });
