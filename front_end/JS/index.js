@@ -8,9 +8,9 @@ botao.addEventListener('click',
          let resposta = await fetch(`http://localhost:3000/login/${usuario}/${senha}`)
          if(resposta.status == 200)
          {
-            // replace é usado quando queremos redirecionar o
-            // usuario sem deixar a opção de navegar de volta para a tela anterior
-            window.location.replace("./home.html")
+            const id_usuario = await resposta.json()
+            window.location
+            .replace(`./home.html?id_usuario=${encodeURIComponent(id_usuario)}`)
             
          }
          else{

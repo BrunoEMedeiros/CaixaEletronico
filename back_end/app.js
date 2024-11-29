@@ -14,10 +14,27 @@ app.get('/login/:usuario/:senha', async (req, res)=>{
     email = ${usuario} and senha = ${senha}`
 
     if(consulta != null && consulta != '')
-        return res.status(200).json(consulta);
+        return res.status(200).json(consulta[0].id);
     else
         return res.status(401).json('Usuario ou senha incorretos')
 });
+
+app.get('/transacoes/:id', async (req, res)=>{
+    const { id } =  req.params;
+    const transacoes = await sql`select 
+                                t.id, 
+                                t.saldo_antigo,
+                                t.tipo,
+                                t.data_transacao
+                                from transacao as t
+                                left join conta as c
+                                on t.id_conta = c.id
+                                inner join usuario as u
+                                on c.id_usuario = u.id
+                                where u.id = ${id};`
+
+    return res.status(200).json(transacoes)
+})
 
 app.post('/usuario/novo', async (req, res)=>{
     try{
@@ -37,6 +54,8 @@ app.post('/usuario/novo', async (req, res)=>{
         return res.status(500).json('Erro ao cadastrar usuario!')
     }
 });
+
+
 
 app.listen(3000,()=>{
     console.log('Running!!')
